@@ -1,0 +1,17 @@
+{
+  "name": "mi-bot-sugerencias",
+  "version": "1.0.0",
+  "description": "Bot de sugerencias modular con PostgreSQL",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "deploy": "node scripts/deploy-commands.js",
+    "delete": "node scripts/delete-commands.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "pg": "^8.11.3"
+  }
+}
