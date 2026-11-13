@@ -16,7 +16,7 @@ module.exports = {
             ).setFooter({ text: 'Suggestion Bot' }).setTimestamp();
 
         const row = new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setLabel('Políticas de Privacidad').setURL('https://github.com/TU_USUARIO/TU_REPOSITORIO/blob/main/PRIVACY.md').setStyle(ButtonStyle.Link).setEmoji('🔒')
+            new ButtonBuilder().setLabel('Políticas de Privacidad').setURL('https://estrellastudios-dev.github.io/bots/suggestions/privacy.html').setStyle(ButtonStyle.Link).setEmoji('🔒')
         );
 
         await interaction.reply({ embeds: [embed], components: [row], flags: 64 });
