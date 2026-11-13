@@ -6,7 +6,6 @@ module.exports = {
     async execute(client) {
         await initDB();
         console.log(`🤖 Bot conectado como ${client.user.tag}`);
-        
         if (process.env.WEBHOOK_LOGS) {
             const { WebhookClient } = require('discord.js');
             const webhook = new WebhookClient({ url: process.env.WEBHOOK_LOGS });

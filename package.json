@@ -1,7 +1,7 @@
 {
-  "name": "mi-bot-sugerencias",
-  "version": "1.0.0",
-  "description": "Bot de sugerencias modular con PostgreSQL",
+  "name": "suggestion-bot",
+  "version": "1.1.1",
+  "description": "Bot de sugerencias multi-servidor",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",

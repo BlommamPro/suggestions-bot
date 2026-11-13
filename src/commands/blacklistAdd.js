@@ -1,34 +1,19 @@
 const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const { pool } = require('../database/db');
+const { t } = require('../utils/i18n');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('suggestion_blacklist_add')
-        .setDescription('Añade un usuario a la lista negra de sugerencias')
+        .setDescription('Añade usuario a la lista negra')
+        .setDescriptionLocalizations({ 'en-US': 'Add user to blacklist' })
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
-        .addUserOption(option => 
-            option.setName('usuario')
-                .setDescription('El usuario a bloquear')
-                .setRequired(true)
-        )
-        .addStringOption(option => 
-            option.setName('razon')
-                .setDescription('Motivo del bloqueo')
-                .setRequired(false)
-        ),
+        .addUserOption(opt => opt.setName('usuario').setDescription('Usuario').setDescriptionLocalizations({ 'en-US': 'User' }).setRequired(true)),
     async execute(interaction) {
-        const usuario = interaction.options.getUser('usuario');
-        const razon = interaction.options.getString('razon') || 'No especificada';
-        
+        const user = interaction.options.getUser('usuario');
         try {
-            await pool.query(
-                'INSERT INTO blacklist (usuario_id, razon, agregado_por) VALUES ($1, $2, $3) ON CONFLICT (usuario_id) DO UPDATE SET razon = $2, agregado_por = $3',
-                [usuario.id, razon, interaction.user.id]
-            );
-            await interaction.reply({ content: `✅ El usuario <@${usuario.id}> ha sido añadido a la lista negra.`, flags: 64 });
-        } catch (error) {
-            console.error(error);
-            await interaction.reply({ content: '❌ Error al añadir a la lista negra.', flags: 64 });
-        }
+            await pool.query('INSERT INTO blacklist (guild_id, usuario_id, agregado_por) VALUES ($1, $2, $3) ON CONFLICT (guild_id, usuario_id) DO NOTHING', [interaction.guildId, user.id, interaction.user.id]);
+            await interaction.reply({ content: `${t(interaction, 'blacklist_added')} (<@${user.id}>)`, flags: 64 });
+        } catch (e) { console.error(e); await interaction.reply({ content: '❌ Error', flags: 64 }); }
     }
 };
