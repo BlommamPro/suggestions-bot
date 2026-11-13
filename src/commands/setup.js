@@ -25,13 +25,13 @@ module.exports = {
             );
             
             const mensajeExito = idioma === 'es' 
-                ? `✅ Canal configurado en <#${canalId}> con idioma **Español**.`
-                : `✅ Channel configured in <#${canalId}> with **English** language.`;
+                ? `<:check:1570833514142761060> Canal configurado en <#${canalId}> con idioma **Español**.`
+                : `<:check:1570833514142761060> Channel configured in <#${canalId}> with **English** language.`;
                 
-            await interaction.reply({ content: mensajeExito, flags: 64 });
+            await interaction.editReply({ content: mensajeExito });
         } catch (e) { 
             console.error(e); 
-            await interaction.reply({ content: '❌ Error', flags: 64 }); 
+            await interaction.editReply({ content: '❌ Error' }); 
         }
     }
 };

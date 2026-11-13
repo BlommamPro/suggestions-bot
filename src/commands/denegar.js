@@ -12,7 +12,6 @@ module.exports = {
         .addStringOption(opt => opt.setName('id').setDescription('ID de la sugerencia').setDescriptionLocalizations({ 'en-US': 'Suggestion ID' }).setRequired(true))
         .addStringOption(opt => opt.setName('razon').setDescription('Razón').setDescriptionLocalizations({ 'en-US': 'Reason' }).setRequired(false)),
     async execute(interaction) {
-        await interaction.deferReply({ flags: 64 });
         const idSug = interaction.options.getString('id');
         const razon = interaction.options.getString('razon') || 'No especificada';
         try {
@@ -34,6 +33,9 @@ module.exports = {
             
             await mensaje.edit({ embeds: [embed], components: [] });
             await interaction.editReply({ content: t(interaction, 'denied', idiomaServidor) });
-        } catch (e) { console.error(e); await interaction.editReply({ content: '❌ Error' }); }
+        } catch (e) { 
+            console.error(e); 
+            await interaction.editReply({ content: '<:cross:1570833592895016970> Error' }); 
+        }
     }
 };

@@ -13,8 +13,11 @@ module.exports = {
         const user = interaction.options.getUser('usuario');
         try {
             const res = await pool.query('DELETE FROM blacklist WHERE guild_id = $1 AND usuario_id = $2', [interaction.guildId, user.id]);
-            if (res.rowCount === 0) return interaction.reply({ content: `${t(interaction, 'not_in_blacklist')} (<@${user.id}>)`, flags: 64 });
-            await interaction.reply({ content: `${t(interaction, 'blacklist_removed')} (<@${user.id}>)`, flags: 64 });
-        } catch (e) { console.error(e); await interaction.reply({ content: '❌ Error', flags: 64 }); }
+            if (res.rowCount === 0) return interaction.editReply({ content: `${t(interaction, 'not_in_blacklist')} (<@${user.id}>)` });
+            await interaction.editReply({ content: `${t(interaction, 'blacklist_removed')} (<@${user.id}>)` });
+        } catch (e) { 
+            console.error(e); 
+            await interaction.editReply({ content: '<:cross:1570833592895016970> Error' }); 
+        }
     }
 };

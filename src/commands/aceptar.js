@@ -11,7 +11,6 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
         .addStringOption(opt => opt.setName('id').setDescription('ID de la sugerencia').setDescriptionLocalizations({ 'en-US': 'Suggestion ID' }).setRequired(true)),
     async execute(interaction) {
-        await interaction.deferReply({ flags: 64 });
         const idSug = interaction.options.getString('id');
         try {
             const res = await pool.query("UPDATE sugerencias SET estado = 'aceptada' WHERE id = $1 AND guild_id = $2 RETURNING *", [idSug, interaction.guildId]);
@@ -30,6 +29,9 @@ module.exports = {
             
             await mensaje.edit({ embeds: [embed], components: [] });
             await interaction.editReply({ content: t(interaction, 'accepted', idiomaServidor) });
-        } catch (e) { console.error(e); await interaction.editReply({ content: '❌ Error' }); }
+        } catch (e) { 
+            console.error(e); 
+            await interaction.editReply({ content: '<:cross:1570833592895016970> Error' }); 
+        }
     }
 };

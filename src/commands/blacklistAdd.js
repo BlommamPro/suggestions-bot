@@ -13,7 +13,10 @@ module.exports = {
         const user = interaction.options.getUser('usuario');
         try {
             await pool.query('INSERT INTO blacklist (guild_id, usuario_id, agregado_por) VALUES ($1, $2, $3) ON CONFLICT (guild_id, usuario_id) DO NOTHING', [interaction.guildId, user.id, interaction.user.id]);
-            await interaction.reply({ content: `${t(interaction, 'blacklist_added')} (<@${user.id}>)`, flags: 64 });
-        } catch (e) { console.error(e); await interaction.reply({ content: '❌ Error', flags: 64 }); }
+            await interaction.editReply({ content: `${t(interaction, 'blacklist_added')} (<@${user.id}>)` });
+        } catch (e) { 
+            console.error(e); 
+            await interaction.editReply({ content: '<:cross:1570833592895016970> Error' }); 
+        }
     }
 };
